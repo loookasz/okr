@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+
+	<h1>Zalogowano jako:  {{ user.username }} </h1> 
+	<h2>Zespół: {{user.employee.team_id}}</h2>
+	
+{% else %}	
+	
+	<h1>Proszę się zalogować</h1>
+{% endif %}		
+	
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ol>
+
+<script>
+	var progress_table = [];
+	var i = 0;
+	var j = 0;
+</script>
+
+{% for employee_okr in employee_okrs %} 
+	<div class="container-fluid py-1 mb-2 px-1 pl-5 mx-0 bg-light rounded border border-dark">		 
+	
+
+<script>
+	var kr_count = 0;	
+	var total_progress = 0;
+	var goal = 0;
+	var progress = 0;
+	var percent = 0;
+	var sum = 0;		
+	kr_count = "{{employee_okr.okr.contains.count}}"	
+	j = "{{ forloop.counter0 }}";
+	
+</script>
+		
+
+		<h4><b><li></b><b>Cel:</b> {{ employee_okr.okr.name }}  
+		
+			{% if user.employee.role == 1	or	user.employee.role == 2		or	user.employee.role ==	3 	and 	employee_okr.employee_id.team_id.id == user.employee.team_id.id    %}
+		
+			<form class="form-inline m-0 p-0 mt-1 pt-1 float-right">									
+				<a href="{% url 'team_update_okr' id=employee_okr.id %}" class="btn btn-outline-primary btn-sm ml-2">Edytuj Cel</a>
+					{% if employee_okr.okr.contains.count == 0 %}
+						<a href="{% url 'team_delete_okr' id=employee_okr.id %}" class="btn btn-outline-danger btn-sm ml-2">Usuń Cel</a>
+					{% endif %}
+					
+				<div class="dropdown ">
+					<button class="btn btn-outline-success btn-sm dropdown-toggle ml-2 mt-n1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Dodaj kluczowy rezultat
+					</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" href="{% url 'team_add_kr' id=employee_okr.okr.id %}?next={{ request.path|urlencode }}">Zespołowi</a>
+							<a class="dropdown-item" href="{% url 'employee_add_kr' id=employee_okr.okr.id %}?next={{ request.path|urlencode }}">Pracownikowi</a>
+						</div>
+				</div>
+				
+			</form>
+		
+			{% endif %}
+		</h4>	
+		<h5><b>Dla: </b>{{ employee_okr.employee_id }} </h5>				
+															
+			
+			<div class="container-fluid pl-0 pr-2 pb-3 mt-0 ">
+				<div class="row">	
+					<div class="col-2 mt-0 ">
+						<b>Całkowity postęp:  </b>
+	
+					</div>
+					<div class="col ml-0">
+
+					
+					<div class="progress mt-2 mb-1" style="height: 30px; width: 100%;" >
+						<div class="progress-bar-striped progress-bar" id="total_progress_{{forloop.counter0}}" role="progressbar" style="width: 0%" "aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> </div> 
+					</div>
+					
+					
+					
+					</div>
+				</div>
+			</div>
+										
+		<ol>
+			{% for contains in employee_okr.okr.contains.all %}
+
+<script>			
+	progress = "{{contains.progress}}";
+	goal = "{{contains.goal}}";
+	percent = progress / goal * 100;
+	sum = sum + percent;
+	total_progress = sum / kr_count;
+	
+</script>
+
+
+				<div class="container-fluid py-1 pl-4 pr-1 ml-n4 mb-2  rounded border border-dark">	
+
+					<h5>
+						<b><li></b>Zadanie:</b> {{ contains.name }} 
+
+							<div class="form-inline my-0 pb-0 float-right ">
+							{% if 	user.employee.role == 1	or	user.employee.role == 2			or	user.employee.role ==	3 	and 	employee_okr.employee_id.team_id.id == user.employee.team_id.id  %}
+								<a href="{% url 'edit_kr' id=contains.id %}?next={{ request.path|urlencode }}" class="btn btn-outline-primary btn-sm">Edytuj</a>
+								<a href="{% url 'delete_kr' id=contains.id %}?next={{ request.path|urlencode }}" class="btn btn-outline-danger btn-sm ml-1">Usuń</a>
+								<a href="{% url 'add_progress' id=contains.id %}?next={{ request.path|urlencode }}" class="btn btn-outline-success btn-sm ml-1">Dodaj postęp</a>
+								{% elif user.employee.id == contains.employee_kr.employee_id.id	 %}
+									<a href="{% url 'add_progress' id=contains.id %}?next={{ request.path|urlencode }}" class="btn btn-outline-success btn-sm ml-1">Dodaj postęp</a>
+								{% else %}
+							</div>
+							{% endif %}
+
+					</h5>
+					
+					<h6>
+						<div class="container-fluid  px-0 py-2 mt-2 ">
+							<div class="row">
+								<div class="col-sm">
+									<b>Do osiągnięcia: </b>{{ contains.goal }} 
+								</div>
+								<div class="col-sm">
+									<b>Wykonano: </b>{{ contains.progress }}
+								</div>
+								<div class="col-sm">
+									{% if contains.team_kr.count == None %}
+									<b>Wykonuje zespół: </b>{{ contains.team_kr.team_id}}
+									{% else %}
+									<b>Wykonuje pracownik: </b>{{ contains.employee_kr.employee_id}}
+									{% endif %}
+								</div>					
+																																																							
+							</div>
+						</div>
+					</h6>
+					
+					<label for="file"> <b>Postęp: 0</b></label>
+
+						<progress id="file" max="{{ contains.goal }}" value="{{ contains.progress }}">  </progress>	
+										
+					<label for="file"> <b>{{ contains.goal }}</b></label>
+									
+				</div>	
+													
+											
+			{% endfor %}
+					</li>
+																				
+		</ol>
+	</div>
+	
+<script>
+	progress_table.push(total_progress);
+	total_progress = progress_table[i];		
+	$("#total_progress_{{forloop.counter0}}").css("width", progress_table[i]+"%" ).attr("aria-valuenow", progress_table[i]).text(progress_table[j].toFixed(0) + "%");
+	i++;
+</script>	
+	
+	
+{% endfor %}
+				
+						
+{% endblock %}

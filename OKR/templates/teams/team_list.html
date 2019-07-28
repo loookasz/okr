@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	{% for team in teams %}
+	<h4>Nazwa zespołu: {{ team.name }}
+		<a href="{% url 'team_update' id=team.id %}" class="btn btn-outline-primary btn-sm ml-2">edytuj</a>
+		{% if team.belongs.count == 0 %}					
+			<a href="{% url 'team_delete' id=team.id %}" class="btn btn-outline-danger btn-sm ml-2">Usuń Zespół</a>
+			<br> 
+				<h6>Zespół jest pusty!</h6>
+			<br> 
+		{% else %}
+	</h4>
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col" style="width: 25%">Stanowisko</th>
+					<th scope="col" style="width: 25%">Nazwisko</th>
+					<th scope="col" style="width: 25%">Imię</th>
+					<th	scope="col" style="width: 25%">ZARZĄDZAJ</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for belongs in team.belongs.all %}
+				<tr>
+					<td><h6></h6></td>
+					<td><h6>{{ belongs.get_role_display }}</h6></td>
+					<td><h6>{{ belongs.user.last_name }}</h6></td>
+					<td><h6>{{ belongs.user.first_name }}</h6></td>
+					<td>
+					{% if user.employee.role == 1	or	user.employee.role == 2	 %}
+						<a href="{% url 'employee_update' id=belongs.id %}" class="btn btn-outline-primary btn-sm">EDYTUJ</a>
+						<a href="{% url 'employee_delete' id=belongs.id %}" class="btn btn-outline-danger btn-sm ml-1">USUŃ</a>
+					{% else %}
+						<h6>brak uprawnień</h6>
+					{% endif %}
+					</td>
+				</tr>
+				{% endfor %}					
+			</tbody>
+		</table>
+		{% endif %}
+	{% endfor %}	
+
+{% endblock %}

@@ -1,0 +1,91 @@
+
+.asteriskField 
+	{
+		display: none;
+	}
+			
+form .alert ul
+	{
+		list-style: none;
+	}
+			
+form .alert ul
+	{
+		padding: 0;
+		margin: 0;
+	}
+
+/* h1   */
+/* { */
+    /* color: #c9c9c9; */
+/* } */
+
+progress[value] {
+  /* Reset the default appearance */
+	-webkit-appearance: none;
+	appearance: none;
+
+	width: 80%;
+	height: 20px;
+	/* padding-top: 10px; */
+	margin-bottom: -5px;
+}
+
+progress[value]::-webkit-progress-bar 
+{
+	background-color: #eee;
+	border-radius: 2px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+progress[value]::-webkit-progress-value 
+{
+
+	background-image:
+	   -webkit-linear-gradient(45deg, 
+	                           transparent 33%, rgba(0, 0, 0, .1) 33%, 
+	                           rgba(0,0, 0, .1) 66%, transparent 66%),
+	   
+	   -webkit-linear-gradient(top, 
+	                           rgba(255, 255, 255, 0), 
+	                           rgba(255, 255, 255, 0)),
+	   -webkit-linear-gradient(left, #3366ff, #3366ff);
+
+    border-radius: 2px; 
+    background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
+
+.btn-group-xs > .btn, .btn-xs 
+{
+	padding  : .25rem .4rem;
+    font-size  : .875rem;
+    line-height  : .5;
+    border-radius : .2rem;
+}
+
+
+table
+{
+    counter-reset: rowNumber;
+}
+
+table tr > td:first-child
+{
+    counter-increment: rowNumber;
+}
+
+table tr td:first-child::before
+{
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}
+
+
+
+
+
+
+
+
