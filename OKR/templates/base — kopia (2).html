@@ -23,18 +23,18 @@
 	<div class="container ">
 		<div class="collapse navbar-collapse " id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item {{ home_page }}">
-					<a class="nav-link" href="{% url 'home' %}">Aplikacja OKR <span class="sr-only">(current)</span></a>
+				<li class="nav-item active">
+					<a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
 				</li> 
 			{% if user.is_authenticated %}
 				<li>
-					<a class="nav-link {{ company_page }} " href="{% url 'company_list_okr' %}">Cele firmowe</a>
+					<a class="nav-link " href="{% url 'company_list_okr' %}">Cele firmowe</a>
 				</li>
 				<li>
-					<a class="nav-link {{ team_page }}" href="{% url 'team_list_okr' %}">Cele Zespołowe</a>
+					<a class="nav-link" href="{% url 'team_list_okr' %}">Cele Zespołowe</a>
 				</li>
 				<li>
-					<a class="nav-link {{ employee_page }}" href="{% url 'employee_list_okr' %}">Cele indywidualne</a>
+					<a class="nav-link" href="{% url 'employee_list_okr' %}">Cele indywidualne</a>
 				</li>
 			{% else %}
 			</ul>
@@ -44,7 +44,7 @@
 <form class="form-inline my-2 my-lg-0">
 	{% if user.is_authenticated %}
 		<div class="dropdown">
-			<button class="btn btn-secondary btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				Firma
 			</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -54,7 +54,7 @@
 		</div>
 				
 		<div class="dropdown">
-			<button class="btn btn-secondary btn-outline-light dropdown-toggle ml-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<button class="btn btn-secondary dropdown-toggle ml-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				Dodaj
 			</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -76,8 +76,8 @@
 		
 				
 				
-		<a href="{% url 'password_change' %}" class="btn btn-outline-light ml-2">Zmiana hasła</a>
-		<a href="{% url 'logout' %}" class="btn ml-2 btn-outline-light">Wyloguj</a>
+		<a href="{% url 'password_change' %}" class="btn btn-outline-secondary ml-2">Zmiana hasła</a>
+		<a href="{% url 'logout' %}" class="btn btn-primary ml-2">Wyloguj</a>
 	{% else %}
 		<a href="{% url 'login' %}" class="btn btn-primary ml-2">Zaloguj</a>
 	{% endif %}
@@ -87,41 +87,6 @@
 	</div>
 </nav> 
   
-
-<!-- <nav class="> -->
-	<!-- <a class="navbar-brand disabled" href="#">Aplikacja OKR</a> -->
-	<!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> -->
-    <!-- <span class="navbar-toggler-icon"></span> -->
-	<!-- </button> -->
-	
-  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
-    <!-- <ul class="navbar-nav mr-auto"> -->
-      <!-- <li class="nav-item active"> -->
-        <!-- <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> -->
-      <!-- </li> -->
-      <!-- <li class="nav-item"> -->
-        <!-- <a class="nav-link" href="#">Link</a> -->
-      <!-- </li> -->
-      <!-- <li class="nav-item dropdown"> -->
-        <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-          <!-- Dropdown -->
-        <!-- </a> -->
-        <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown"> -->
-          <!-- <a class="dropdown-item" href="#">Action</a> -->
-          <!-- <a class="dropdown-item" href="#">Another action</a> -->
-          <!-- <div class="dropdown-divider"></div> -->
-          <!-- <a class="dropdown-item" href="#">Something else here</a> -->
-        <!-- </div> -->
-      <!-- </li> -->
-     
-    <!-- </ul> -->
-    <!-- <form class="form-inline my-2 my-lg-0"> -->
-      <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
-      <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-    <!-- </form> -->
-  <!-- </div> -->
-<!-- </nav> -->
-
 
 <div class="container-fluid  ">
 	{% block content %}

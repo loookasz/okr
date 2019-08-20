@@ -95,8 +95,10 @@
 								<a href="{% url 'edit_kr' id=contains.id %}?next={{ request.path|urlencode }}" class="btn btn-outline-primary btn-sm">Edytuj</a>
 								<a href="{% url 'delete_kr' id=contains.id %}?next={{ request.path|urlencode }}" class="btn btn-outline-danger btn-sm ml-1">Usuń</a>
 								<a href="{% url 'add_progress' id=contains.id %}?next={{ request.path|urlencode }}" class="btn btn-outline-success btn-sm ml-1">Dodaj postęp</a>
+								<input type="hidden" name="next" value="{{next}}" />
 								{% elif user.employee.id == contains.employee_kr.employee_id.id	 %}
 									<a href="{% url 'add_progress' id=contains.id %}?next={{ request.path|urlencode }}" class="btn btn-outline-success btn-sm ml-1">Dodaj postęp</a>
+									<input type="hidden" name="next" value="{{next}}" />
 								{% else %}
 							</div>
 							{% endif %}

@@ -31,14 +31,13 @@ urlpatterns = [
 
     path('employee/add_kr/<int:id>/', views.employee_add_kr, name='employee_add_kr'),
 
-
-
     path('employee/add_okr/', views.employee_add_okr, name='employee_add_okr'),
     path('employee/edit/<int:id>/', views.employee_update_okr, name='employee_update_okr'),
     path('employee/list_okr/', views.employee_list_okr, name='employee_list_okr'),
     path('employee/delete_okr/<int:id>', views.employee_delete_okr, name='employee_delete_okr'),
 
     path('edit_kr/<int:id>/', views.edit_kr, name='edit_kr'),
+
     path('delete_kr/<int:id>/', views.delete_kr, name='delete_kr'),
 
     path('add_progress/<int:id>', views.add_progress, name='add_progress')

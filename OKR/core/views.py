@@ -5,16 +5,16 @@ from django.views.generic import UpdateView
 from django.db.models import Count
 from django.http import HttpResponseRedirect        #dqwwqqwdwq
 from django.shortcuts import redirect
-
+from django.contrib import messages
 
 from .forms import *
 
 
-
-
 def home(request):
-    return render(request, 'home.html')
+    context = {"home_page":"active bg-secondary rounded"}
+    return render(request, 'home.html', context)
 
+@login_required
 def register(request):
     if request.method == 'POST':
         form = ExtendedUserCreationForm(request.POST)
@@ -39,6 +39,7 @@ def register(request):
 
 #=================================================================================
 
+@login_required
 def add_team(request):
     if request.method =='POST':
         form = TeamForm(request.POST)
@@ -51,18 +52,21 @@ def add_team(request):
 
 #=================================================================================
 
+@login_required
 def team_list(request):
     teams = Team.objects.all().prefetch_related()
     return render(request, 'teams/team_list.html', {'teams':teams,})
 
 #=================================================================================
 
+@login_required
 def employee_list(request):
     employees = Employee.objects.all().prefetch_related()
     return render(request, 'registration/employee_list.html', {'employees':employees})
 
 #=================================================================================
 
+@login_required
 def team_update(request, id):
     instance = get_object_or_404(Team, id=id)
     form = TeamForm(request.POST or None, instance=instance)
@@ -76,6 +80,7 @@ def team_update(request, id):
 
 #=================================================================================
 
+@login_required
 def team_delete(request, id):
     instance = get_object_or_404(Team, id=id)
     instance.delete()
@@ -84,6 +89,7 @@ def team_delete(request, id):
 
 #=================================================================================
 
+@login_required
 def employee_update(request, id):
     instance = get_object_or_404(Employee, id=id)
     form = UserProfileForm(request.POST or None, instance=instance)
@@ -96,6 +102,7 @@ def employee_update(request, id):
 
 #=================================================================================
 
+@login_required
 def employee_delete(request, id):
     instance = get_object_or_404(Employee, id=id)
     instance.delete()
@@ -103,27 +110,31 @@ def employee_delete(request, id):
 
 #=================================================================================
 
-
+@login_required
 def company_add_okr(request):
     if request.method =='POST':
         form = OKR_Form(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "dodano cel firmowy")
             return redirect('company_list_okr')
     else:
         form = OKR_Form()
     return render(request, 'company/add_okr.html', {'form':form})
 
+@login_required
 def company_list_okr(request):
     okrs = OKR.objects.all().prefetch_related().filter(team_okr__isnull=True).filter(employee_okr__isnull=True)
+    context = {"company_page":"active bg-secondary rounded", "okrs":okrs,}
+    return render(request, 'company/list_okr.html', context)
 
-    return render(request, 'company/list_okr.html', {'okrs':okrs})
-
+@login_required
 def company_delete_okr(request, id):
     instance = get_object_or_404(OKR, id=id)
     instance.delete()
     return redirect('company_list_okr')
 
+@login_required
 def company_update_okr(request, id):
     instance = get_object_or_404(OKR, id=id)
     form = OKR_Form(request.POST or None, instance=instance)
@@ -137,6 +148,7 @@ def company_update_okr(request, id):
 
 #==================================================================================
 
+@login_required
 def team_add_okr(request):
     if request.method =='POST':
         form = OKR_Form(request.POST)
@@ -154,7 +166,7 @@ def team_add_okr(request):
     context = {'form':form, 'team_okr_form':team_okr_form}
     return render(request, 'team/add_okr.html', context)
 
-
+@login_required
 def team_update_okr(request, id):
     instance = get_object_or_404(Team_OKR, id=id)
     okr_form = OKR_Form(request.POST or None, instance = instance.okr)
@@ -166,21 +178,23 @@ def team_update_okr(request, id):
     context = {'instance':instance, 'okr_form':okr_form, 'team_okr_form':team_okr_form }
     return render(request, 'team/update_okr.html' ,context)
 
-
+@login_required
 def team_list_okr(request):
     team_okrs = Team_OKR.objects.all().prefetch_related()
-##    count = OKR.objects.annotate(Count('contains')).filter(id=10)              ############################3
-##    count = KR.objects.annotate(Count('contains'))
-##    count = KR.objects.annotate(Count('id'))
-##    count = KR.objects.count()
-    return render(request, 'team/list_okr.html', {'team_okrs':team_okrs, })
+    context = {"team_page":"active bg-secondary rounded", "team_okrs":team_okrs,}
+    return render(request, 'team/list_okr.html', context)
 
+
+
+@login_required
 def team_delete_okr(request, id):
     instance = get_object_or_404(Team_OKR, id=id)
     instance.delete()
     return redirect('team_list_okr')
 
 #===================================================================================
+
+@login_required
 def employee_add_okr(request):
     if request.method =='POST':
         form = OKR_Form(request.POST)
@@ -197,6 +211,7 @@ def employee_add_okr(request):
     context = {'form':form, 'employee_okr_form':employee_okr_form}
     return render(request, 'employee/add_okr.html', context)
 
+@login_required
 def employee_update_okr(request, id):
     instance = get_object_or_404(Employee_OKR, id=id)
     okr_form = OKR_Form(request.POST or None, instance = instance.okr)
@@ -208,10 +223,15 @@ def employee_update_okr(request, id):
     context = {'instance':instance, 'okr_form':okr_form, 'employee_okr_form':employee_okr_form}
     return render(request, 'employee/update_okr.html' ,context)
 
+@login_required
 def employee_list_okr(request):
     employee_okrs = Employee_OKR.objects.all().prefetch_related()
-    return render(request, 'employee/list_okr.html', {'employee_okrs':employee_okrs})
+    context = {"employee_page":"active bg-secondary rounded", "employee_okrs":employee_okrs,}
+    return render(request, 'employee/list_okr.html', context)
 
+
+
+@login_required
 def employee_delete_okr(request, id):
     instance = get_object_or_404(Employee_OKR, id=id)
     instance.delete()
@@ -219,6 +239,7 @@ def employee_delete_okr(request, id):
 
 #===================================================================================
 
+@login_required
 def team_add_kr(request, id):
     if request.method == 'POST':
         instance = get_object_or_404(OKR, id=id)
@@ -244,6 +265,7 @@ def team_add_kr(request, id):
     context = {'form':form, 'team_kr_form':team_kr_form}
     return render(request, 'team/add_kr.html', context)
 
+@login_required
 def employee_add_kr(request, id):
     if request.method == 'POST':
         instance = get_object_or_404(OKR, id=id)
@@ -270,6 +292,7 @@ def employee_add_kr(request, id):
 
 #=================================================================================
 
+@login_required
 def edit_kr(request, id):
     instance = get_object_or_404(KR, id=id)
     try:
@@ -297,14 +320,14 @@ def edit_kr(request, id):
         context = {'instance':instance, 'kr_form':kr_form, 'employee_kr_form':employee_kr_form}
         return render(request, 'employee/update_kr.html' ,context)
 
+
+@login_required
 def delete_kr(request, id):
     instance = get_object_or_404(KR, id=id)
     instance.delete()
-    if 'next' in request.POST:
-        return redirect(request.POST.get('next'))
-    else:
-        return redirect('team_list_okr')
+    return redirect(request.GET.get('next'))
 
+@login_required
 def add_progress(request, id):
     instance = get_object_or_404(KR, id=id)
     form = Progress_Form(request.POST or None, instance=instance)
