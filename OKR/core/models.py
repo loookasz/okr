@@ -24,7 +24,7 @@ class Employee(models.Model):
     role = models.IntegerField(choices=ROLES, default=4)
 ##blank=True, null=True, db_constraint=False,
     def __str__(self):
-        return format(self.user.username)
+        return format(self.user.last_name)
 
 @receiver(post_delete, sender=Employee)
 def delete_user(sender, instance, **kwargs):

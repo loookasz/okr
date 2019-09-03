@@ -126,7 +126,7 @@
 									{% if contains.team_kr.count == None %}
 									<b>Wykonuje zespół: </b>{{ contains.team_kr.team_id}}
 									{% else %}
-									<b>Wykonuje pracownik: </b>{{ contains.employee_kr.employee_id}}
+									<b>Wykonuje pracownik: </b>{{ contains.employee_kr.employee_id.user.first_name}} {{ contains.employee_kr.employee_id}} 
 									{% endif %}
 								</div>					
 																																																							

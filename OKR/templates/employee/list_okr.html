@@ -31,9 +31,9 @@
 			{% if user.employee.role == 1	or	user.employee.role == 2		or	user.employee.role ==	3 	and 	employee_okr.employee_id.team_id.id == user.employee.team_id.id    %}
 		
 			<form class="form-inline m-0 p-0 mt-1 pt-1 float-right">									
-				<a href="{% url 'team_update_okr' id=employee_okr.id %}" class="btn btn-outline-primary btn-sm ml-2">Edytuj Cel</a>
+				<a href="{% url 'employee_update_okr' id=employee_okr.id %}" class="btn btn-outline-primary btn-sm ml-2">Edytuj Cel</a>
 					{% if employee_okr.okr.contains.count == 0 %}
-						<a href="{% url 'team_delete_okr' id=employee_okr.id %}" class="btn btn-outline-danger btn-sm ml-2">Usuń Cel</a>
+						<a href="{% url 'employee_delete_okr' id=employee_okr.id %}" class="btn btn-outline-danger btn-sm ml-2">Usuń Cel</a>
 					{% endif %}
 					
 				<div class="dropdown ">
@@ -116,7 +116,7 @@
 									{% if contains.team_kr.count == None %}
 									<b>Wykonuje zespół: </b>{{ contains.team_kr.team_id}}
 									{% else %}
-									<b>Wykonuje pracownik: </b>{{ contains.employee_kr.employee_id}}
+									<b>Wykonuje pracownik: </b>{{ contains.employee_kr.employee_id.user.first_name}} {{ contains.employee_kr.employee_id}} 
 									{% endif %}
 								</div>					
 																																																							
